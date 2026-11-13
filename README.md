@@ -2,43 +2,70 @@
 
 ## 复旦大学本科在读｜Java 后端开发
 
-我关注如何把复杂流程做成**可运行、可验证、可追踪的后端系统**。目前的工程实践主要来自 RoboTwin 具身智能比赛，以及基于这段经历独立实现的 Spring Boot 项目。
+我关注如何把复杂流程做成**可运行、可验证、可追踪的后端系统**。目前的工程实践来自 RoboTwin 具身智能比赛，以及围绕评测、交付和性能分析独立实现的三个 Java 项目。
 
-**English:** Fudan undergraduate building reliable Java backend systems for evaluation orchestration, audited results, and reliable file delivery.
+**English:** Fudan undergraduate building reliable Java backend systems and developer tools for evaluation orchestration, regression analysis, and HTTP performance testing.
 
-### 代表项目：RoboTwin Evaluation Platform
+## 项目一：RoboTwin Evaluation Platform
 
 [查看项目 → robotwin-evaluation-platform](https://github.com/jimi-21/robotwin-evaluation-platform)
 
-基于真实比赛中的评测与交付流程，使用 Java 17 / Spring Boot 3 独立实现的后端系统，不是教程商城或简单 CRUD 拼接。
+基于真实比赛中的评测与交付流程，使用 Java 17 / Spring Boot 3 独立实现的后端系统，包含可直接操作的 Web 控制台。
 
 - **评测编排**：任务状态机、不可变配置快照、异步逐场落库、失败重试。
 - **结果审计**：支持真实 `score_audit.json` 导入，保存计分快照并重新计算汇总指标。
 - **可靠上传**：乱序分片、断点续传、分片幂等、数据库行锁和 SHA256 合并校验。
 - **安全与集成**：JWT 角色权限、可配置 RoboTwin HTTP Runner 适配器、OpenAPI 文档。
+- **可视化演示**：登录、一键评测、episode 查看、浏览器分片上传与验证后下载。
 
 `Java 17` `Spring Boot 3` `Spring Security` `MySQL / H2` `Flyway` `JUnit / MockMvc` `Docker`
 
-**可验证的工程证据**
+**验证结果：**15 个集成测试；真实 JAR 和浏览器端到端演示均已跑通。
 
-- 14 个集成测试，覆盖权限、评测契约、并发上传及异常路径。
-- 真实 JAR 端到端演示：登录、评测、结果导入、上传与下载完整跑通。
-- GitHub Actions 自动执行 `mvn -B verify`。
-- README 提供一键演示脚本、Runner 契约和明确的实现边界。
+![RoboTwin EvalHub dashboard](https://raw.githubusercontent.com/jimi-21/robotwin-evaluation-platform/main/docs/assets/dashboard.png)
 
-### 比赛工程经历：RoboTwin 具身智能比赛
+## 项目二：eval-diff
+
+[查看项目 → eval-diff](https://github.com/jimi-21/eval-diff)
+
+用于比较两次模型评测的 Java CLI，避免只看总分而忽略具体场景退化。
+
+- 校验 episode 和 seed 是否一一对应，保证比较公平。
+- 识别成功恢复、成功变失败、步数增加和减少。
+- 输出控制台、JSON 和无依赖 HTML 报告。
+- 通过退出码支持 CI 模型发布门禁。
+
+真实本地样例中，工具识别出 `84.1 → 79.7`、成功率 `0.8 → 0.6`，并定位到 seed 4 的 `SUCCESS → FAILURE`，没有仅用平均步数得出“模型更快所以更好”的错误结论。
+
+`Java 17` `Jackson` `JUnit 5` `CLI` `CI Quality Gate` · **5 个自动化测试**
+
+## 项目三：latency-lab
+
+[查看项目 → latency-lab](https://github.com/jimi-21/latency-lab)
+
+纯 Java 并发 HTTP 压测工具，可以直接用于检验上面的 Spring Boot 服务。
+
+- 固定线程池控制并发，调度器实现 RPS 限速。
+- 记录状态码、异常、响应大小和纳秒级请求耗时。
+- 统计吞吐量、成功率及 P50/P90/P95/P99 延迟。
+- 输出控制台、JSON、逐请求 CSV 和 HTML 性能报告。
+
+在本地真实演示中，50 个请求以并发 5、目标 50 RPS 执行，工具准确识别了 45 次成功和 5 次故意构造的 503，并生成延迟分布报告。
+
+`Java 17` `HttpClient` `Concurrency` `Performance Analysis` · **5 个自动化测试**
+
+## 比赛工程经历：RoboTwin 具身智能比赛
 
 独立负责初赛的数据处理、模型训练、HTTP 推理服务、评测审计、问题排查及官方材料提交，项目晋级决赛。
 
-这段经历让我接触到的不只是模型训练，还包括数据契约、配置隔离、固定场景评测、失败证据留存，以及 GB 级提交文件的完整性核验。原始比赛工程以 Python 为主，上面的 Java 系统是我后续独立完成的工程化实现，两者不混淆技术栈。
+这段经历让我接触到的不只是模型训练，还包括数据契约、配置隔离、固定场景评测、失败证据留存，以及 GB 级提交文件的完整性核验。原始比赛工程以 Python 为主，上面的 Java 项目是后续独立实现的工程化成果，两者不混淆技术栈。
 
-### 我重视的开发方式
+## 工程证据与开发方式
 
+- **三个项目合计 25 个自动化测试**，并为每个项目配置 GitHub Actions。
+- 不只展示源码，还提供一键演示、真实样例、HTML 报告和浏览器截图。
 - **可运行优先**：先完成真实调用链，再讨论更复杂的架构。
 - **证据优先**：代码、测试、日志和演示比“高并发”“生产级”等标签更重要。
 - **诚实标注边界**：本地实验、合成演示、契约测试和真实环境联调分别说明。
-- **持续理解原理**：不仅交付代码，也能解释状态流转、幂等、事务和完整性校验为什么这样设计。
 
-### 当前方向
-
-继续完善 Java 后端工程能力，连接真实 RoboTwin Runner，并探索对象存储与更完善的任务执行机制。欢迎交流 Java 后端、小型工程需求及具身智能工程化。
+目前继续完善 Java 后端工程能力，连接真实 RoboTwin Runner，并探索对象存储与更完善的任务执行机制。欢迎交流 Java 后端、小型工程需求及具身智能工程化。
