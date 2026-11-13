@@ -8,7 +8,7 @@
 
 ### 代表项目：RoboTwin Evaluation Platform
 
-[查看项目 → robotwin-evaluation-platform](https://github.com/hejingming368-max/robotwin-evaluation-platform)
+[查看项目 → robotwin-evaluation-platform](https://github.com/jimi-21/robotwin-evaluation-platform)
 
 基于真实比赛中的评测与交付流程，使用 Java 17 / Spring Boot 3 独立实现的后端系统，不是教程商城或简单 CRUD 拼接。
 
