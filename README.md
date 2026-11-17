@@ -57,7 +57,7 @@
 ## 上游 Java 开源贡献
 
 - **Hutool 生产代码修复**：[#4360](https://github.com/chinabugotech/hutool/pull/4360) 与 [#4366](https://github.com/chinabugotech/hutool/pull/4366) 已合并，处理不同 Locale 下的 Getter/Setter 判断和 Bean 属性大小写匹配问题。
-- **RxJava 测试工程**：32 个测试改进 PR 已获维护者合并，主要处理并发测试隔离和不确定性，例如 [#8377](https://github.com/ReactiveX/RxJava/pull/8377) 将依赖墙钟时间的断言改为确定性验证。
+- **RxJava 测试与 API 贡献**：34 个 PR 已获维护者合并，其中 32 个主要处理并发测试隔离和不确定性；[#8395](https://github.com/ReactiveX/RxJava/pull/8395) 与 [#8396](https://github.com/ReactiveX/RxJava/pull/8396) 分别新增 `Streamable.just` 多参数重载和 `count()` 生产 API。
 
 这些贡献都经过上游维护者审核；测试稳定性工作不包装成生产功能开发，原创项目与 Fork 贡献工作区也分别展示。
 
