@@ -37,7 +37,7 @@
 
 真实本地样例中，工具识别出 `84.1 → 79.7`、成功率 `0.8 → 0.6`，并定位到 seed 4 的 `SUCCESS → FAILURE`，没有仅用平均步数得出“模型更快所以更好”的错误结论。
 
-`Java 17` `Jackson` `JUnit 5` `CLI` `CI Quality Gate` · **5 个自动化测试**
+`Java 17` `Jackson` `JUnit 6` `CLI` `CI Quality Gate` · **5 个自动化测试**
 
 ## 项目三：latency-lab
 
@@ -53,6 +53,13 @@
 在本地真实演示中，50 个请求以并发 5、目标 50 RPS 执行，工具准确识别了 45 次成功和 5 次故意构造的 503，并生成延迟分布报告。
 
 `Java 17` `HttpClient` `Concurrency` `Performance Analysis` · **5 个自动化测试**
+
+## 上游 Java 开源贡献
+
+- **Hutool 生产代码修复**：[#4360](https://github.com/chinabugotech/hutool/pull/4360) 与 [#4366](https://github.com/chinabugotech/hutool/pull/4366) 已合并，处理不同 Locale 下的 Getter/Setter 判断和 Bean 属性大小写匹配问题。
+- **RxJava 测试工程**：32 个测试改进 PR 已获维护者合并，主要处理并发测试隔离和不确定性，例如 [#8377](https://github.com/ReactiveX/RxJava/pull/8377) 将依赖墙钟时间的断言改为确定性验证。
+
+这些贡献都经过上游维护者审核；测试稳定性工作不包装成生产功能开发，原创项目与 Fork 贡献工作区也分别展示。
 
 ## 比赛工程经历：RoboTwin 具身智能比赛
 
